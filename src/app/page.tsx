@@ -1,9 +1,13 @@
 'use client'
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
+import VehicleList from './vehicle_list';
 
 export default function Home() {
+  const [vehicles, setVehicles] = useState([])
+
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    setVehicles([])
  
     const formData = new FormData(event.currentTarget)
     const response = await fetch(`${process.env.API_URL}/api/vehicles/search/`, {
@@ -16,7 +20,10 @@ export default function Home() {
  
     // Handle response if necessary
     const data = await response.json()
-    console.log(data)
+    if (data['results'].length > 0) {
+      setVehicles(data['results'])
+    }
+    console.log(vehicles)
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -48,6 +55,10 @@ export default function Home() {
           </div>
         </form>
       </div>
+
+      <VehicleList
+        vehicles={vehicles}
+      />
     </main>
   );
 }
