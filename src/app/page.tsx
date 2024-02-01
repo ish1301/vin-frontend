@@ -1,5 +1,5 @@
 'use client'
-import { FormEvent } from 'react'
+import { FormEvent } from 'react';
 
 export default function Home() {
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -7,11 +7,11 @@ export default function Home() {
  
     const formData = new FormData(event.currentTarget)
     const response = await fetch(`${process.env.API_URL}/api/vehicles/search/`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-      },    
-      body: JSON.stringify(formData),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(Object.fromEntries(formData.entries())),
     })
  
     // Handle response if necessary
