@@ -1,13 +1,16 @@
 'use client'
 import { FormEvent, useState } from 'react';
+import MarketPrice from './market_price';
 import VehicleList from './vehicle_list';
 
 export default function Home() {
   const [vehicles, setVehicles] = useState([])
+  const [marketPrice, setMarketPrice] = useState(0)
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setVehicles([])
+    setMarketPrice(0)
  
     const formData = new FormData(event.currentTarget)
     const response = await fetch(`${process.env.API_URL}/api/vehicles/search/`, {
@@ -22,6 +25,9 @@ export default function Home() {
     const data = await response.json()
     if (data['results'].length > 0) {
       setVehicles(data['results'])
+    }
+    if (data['market_value'] > 0 || data['market_value'] != null) {
+      setMarketPrice(data['market_value'])
     }
     console.log(vehicles)
   }
@@ -56,9 +62,9 @@ export default function Home() {
         </form>
       </div>
 
-      <VehicleList
-        vehicles={vehicles}
-      />
+      {marketPrice > 0 ? <MarketPrice price={marketPrice} /> : null } 
+
+      {vehicles.length > 0 ? <VehicleList vehicles={vehicles} /> : null } 
     </main>
   );
 }
