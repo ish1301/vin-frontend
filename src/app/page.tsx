@@ -6,7 +6,7 @@ export default function Home() {
     event.preventDefault()
  
     const formData = new FormData(event.currentTarget)
-    const response = await fetch(`${process.env.API_URL}/api/vehicles/search`, {
+    const response = await fetch(`${process.env.API_URL}/api/vehicles/search/`, {
       method: 'POST',
       body: formData,
     })
