@@ -6,14 +6,14 @@ export default function Home() {
     event.preventDefault()
  
     const formData = new FormData(event.currentTarget)
-    const response = await fetch('/api/submit', {
+    const response = await fetch(`${process.env.API_URL}/api/vehicles`, {
       method: 'POST',
       body: formData,
     })
  
     // Handle response if necessary
     const data = await response.json()
-    // ...
+    console.log(data)
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
