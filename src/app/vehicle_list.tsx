@@ -42,8 +42,8 @@ function Vehicle({ vehicle }: any) {
       >
         {vehicle.name}
       </th>
-      <td className="px-6 py-4">${vehicle.listing_price}</td>
-      <td className="px-6 py-4">{vehicle.listing_mileage}</td>
+      <td className="px-6 py-4">{vehicle.price}</td>
+      <td className="px-6 py-4">{vehicle.mileage}</td>
       <td className="px-6 py-4">{vehicle.location}</td>
     </>
   );
