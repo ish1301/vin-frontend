@@ -1,16 +1,19 @@
 "use client";
 import { FormEvent, useState } from "react";
+import LoadingIcon from "./loader";
 import MarketPrice from "./market_price";
 import VehicleList from "./vehicle_list";
 
 export default function Home() {
   const [vehicles, setVehicles] = useState([]);
   const [marketPrice, setMarketPrice] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setVehicles([]);
     setMarketPrice("");
+    setIsLoading(true);
 
     const formData = new FormData(event.currentTarget);
     const response = await fetch(
@@ -23,6 +26,7 @@ export default function Home() {
         body: JSON.stringify(Object.fromEntries(formData.entries())),
       }
     );
+    setIsLoading(false);
 
     // Handle response if necessary
     const data = await response.json();
@@ -115,6 +119,8 @@ export default function Home() {
           </div>
         </form>
       </div>
+
+      {isLoading == true ? <LoadingIcon /> : null}
 
       {marketPrice.length > 0 ? <MarketPrice price={marketPrice} /> : null}
 
