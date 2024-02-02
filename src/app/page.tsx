@@ -5,12 +5,12 @@ import VehicleList from "./vehicle_list";
 
 export default function Home() {
   const [vehicles, setVehicles] = useState([]);
-  const [marketPrice, setMarketPrice] = useState(0);
+  const [marketPrice, setMarketPrice] = useState("");
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setVehicles([]);
-    setMarketPrice(0);
+    setMarketPrice("");
 
     const formData = new FormData(event.currentTarget);
     const response = await fetch(
@@ -29,10 +29,9 @@ export default function Home() {
     if (data["results"].length > 0) {
       setVehicles(data["results"]);
     }
-    if (data["market_value"] > 0 || data["market_value"] != null) {
+    if (data["market_value"].length > 0) {
       setMarketPrice(data["market_value"]);
     }
-    console.log(vehicles);
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -117,7 +116,7 @@ export default function Home() {
         </form>
       </div>
 
-      {marketPrice > 0 ? <MarketPrice price={marketPrice} /> : null}
+      {marketPrice.length > 0 ? <MarketPrice price={marketPrice} /> : null}
 
       {vehicles.length > 0 ? <VehicleList vehicles={vehicles} /> : null}
     </main>
